@@ -92,11 +92,12 @@ def stream_from_embed(http: Http, embed_url: str, referer: str) -> Stream:
     path is identical, so it is written once.
     """
     embed = vixcloud.fetch(http, embed_url, referer=referer)
+    playlist_url = embed.playlist_url
     master = hls.parse_master(
-        http.fetch_playlist(embed.playlist_url, embed.referer), embed.playlist_url
+        http.fetch_playlist(playlist_url, embed.referer), playlist_url
     )
     return Stream(
-        playlist_url=embed.playlist_url,
+        playlist_url=master.video_uri or playlist_url,
         key=vixcloud.fetch_key(http, embed.referer),
         referer=embed.referer,
         master=master,

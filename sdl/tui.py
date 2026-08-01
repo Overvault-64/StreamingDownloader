@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from datetime import timedelta
+from time import monotonic
 
 import questionary
 from questionary import Choice
@@ -232,6 +234,7 @@ def _advance_session(console: Console,
 
 def _run_session(console: Console, http: Http, session: download.Session,
                  source: Source | None = None) -> None:
+    started = monotonic()
     done, skipped, failed = 0, 0, 0
     reporter = Reporter(console)
     source = source or for_link(http, session.link)
@@ -284,7 +287,8 @@ def _run_session(console: Console, http: Http, session: download.Session,
             break
         session = updated
 
-    summary = [f"[green]{done} completed[/]"]
+    elapsed = timedelta(seconds=round(monotonic() - started))
+    summary = [f"[green]{done} completed[/] in {elapsed}"]
     if skipped:
         summary.append(f"[yellow]{skipped} skipped[/]")
     if failed:

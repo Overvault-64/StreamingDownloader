@@ -22,6 +22,9 @@ import time
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 import requests
+from requests.adapters import HTTPAdapter
+
+from .config import SEGMENT_WORKERS
 
 logger = logging.getLogger(__name__)
 
@@ -65,8 +68,19 @@ class Http:
 
     def __init__(self):
         self.user_agent = random.choice(USER_AGENTS)
-        self.session = requests.Session()
+        self.session = self._configure_pool(requests.Session())
         self._scraper = None
+
+    @staticmethod
+    def _configure_pool(session: requests.Session) -> requests.Session:
+        adapter = HTTPAdapter(
+            pool_connections=SEGMENT_WORKERS,
+            pool_maxsize=SEGMENT_WORKERS,
+            pool_block=True,
+        )
+        session.mount("http://", adapter)
+        session.mount("https://", adapter)
+        return session
 
     def _cloudscraper(self):
         """Lazily built: importing cloudscraper is not free and the site pages
@@ -74,8 +88,12 @@ class Http:
         if self._scraper is None:
             import cloudscraper
 
-            self._scraper = cloudscraper.create_scraper(
-                browser={"browser": "chrome", "platform": "windows", "desktop": True}
+            self._scraper = self._configure_pool(
+                cloudscraper.create_scraper(
+                    browser={
+                        "browser": "chrome", "platform": "windows", "desktop": True,
+                    }
+                )
             )
         return self._scraper
 

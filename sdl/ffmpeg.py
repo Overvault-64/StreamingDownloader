@@ -106,19 +106,16 @@ def _run(args: list[str], *, parts: list[Path] | None = None, task=None) -> None
 def join(parts: list[Path], destination: Path, task) -> Path:
     """Remux the downloaded MPEG-TS segments into an MP4.
 
-    ``-fflags +genpts`` and ``-avoid_negative_ts`` are *input* options and must
-    precede ``-i``; the audio is re-encoded because HLS audio is often ADTS AAC
-    that MP4 will not carry verbatim.
+    ``-fflags +genpts`` and ``-avoid_negative_ts`` normalize timestamps while
+    the MP4 muxer automatically converts AAC's ADTS framing. The encoded audio
+    and video therefore remain untouched.
     """
     destination.parent.mkdir(parents=True, exist_ok=True)
     _run([
         "-fflags", "+genpts",
         "-avoid_negative_ts", "make_zero",
         "-i", "pipe:0",
-        "-c:v", "copy",
-        "-c:a", "aac", "-b:a", "192k",
-        "-af", "aresample=async=1000",
-        "-movflags", "+faststart",
+        "-c", "copy",
         str(destination),
     ], parts=parts, task=task)
     return destination

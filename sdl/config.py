@@ -14,10 +14,9 @@ from pathlib import Path
 APP_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = APP_DIR / "tmp"
 
-# The source CDN returns 503 for most segments under high concurrency. Four
-# connections preserve parallel throughput without forcing a mostly-sequential
-# recovery pass afterward.
-SEGMENT_WORKERS = 4
+# The CDN accepts sixteen simultaneous segment requests; above that it starts
+# rejecting them with HTTP 503. The HTTP connection pool enforces the same cap.
+SEGMENT_WORKERS = 16
 
 # Language names for the codes the playlists advertise: ISO 639-2/B, the way
 # vixcloud sends them ("fre", "ger", "chi"), plus the 639-2/T spellings in case a
