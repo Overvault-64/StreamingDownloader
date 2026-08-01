@@ -1,0 +1,38 @@
+# Local environments and dependency artifacts
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Python cache and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Application output and temporary files
+downloads/
+tmp/
+temp/
+*.log
+*.part
+*.partial
+*.mp4
+*.mkv
+
+# Environment and local configuration
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
