@@ -3,7 +3,7 @@
 StreamingDownloader is a terminal application for downloading films, TV series,
 and anime from StreamingCommunity and AnimeUnity. Paste a supported page URL,
 choose the desired episodes and tracks, and the application writes media files to
-the local `downloads` directory.
+`StreamingDownloads` in your Downloads folder.
 
 Use this software only for content that you are authorized to download. You are
 responsible for complying with the terms of the source websites and the laws that
@@ -106,10 +106,11 @@ URL, so use a current link that already works in your browser.
 
 ## Output
 
-Files are written under `downloads` next to the launcher:
+Files are written under `StreamingDownloads` in the user's Downloads folder
+(`%USERPROFILE%\Downloads` on Windows, `~/Downloads` elsewhere):
 
 ```text
-downloads/
+StreamingDownloads/
 ├── Film/
 │   └── Supergirl (2026)/Supergirl (2026).mkv
 ├── Serie TV/
@@ -117,6 +118,9 @@ downloads/
 └── Anime/
     └── Attack on Titan (2013)/Season 01/Attack on Titan S01E02.mkv
 ```
+
+Under WSL, add `USERPROFILE/p` to the Windows user variable `WSLENV` so that files
+land in the Windows Downloads folder instead of the Linux home.
 
 The application produces an `.mp4` when the selected stream is self-contained
 and uses `.mkv` when separate audio or subtitles must be included. Included

@@ -18,7 +18,8 @@ import questionary
 from questionary import Choice
 from rich.console import Console
 
-from . import download, ffmpeg, naming, urls
+from . import download, ffmpeg, urls
+from .config import OUTPUT_ROOT
 from .download import MissingAudioTrack
 from .hls import Cancelled, Track
 from .http import Http, HttpError
@@ -293,7 +294,7 @@ def _run_session(console: Console, http: Http, session: download.Session,
         summary.append(f"[yellow]{skipped} skipped[/]")
     if failed:
         summary.append(f"[red]{failed} failed[/]")
-    console.print("  ".join(summary) + f"\n[dim]{naming.OUTPUT_ROOT}[/]\n")
+    console.print("  ".join(summary) + f"\n[dim]{OUTPUT_ROOT}[/]\n")
 
 
 def _session_label(session: download.Session) -> str:
@@ -388,7 +389,7 @@ def main(url: str | None = None) -> int:
     from . import __version__
 
     console = Console()
-    console.print(f"[bold]StreamingDownloader[/] [dim]v{__version__}  ·  {naming.OUTPUT_ROOT}[/]\n")
+    console.print(f"[bold]StreamingDownloader[/] [dim]v{__version__}  ·  {OUTPUT_ROOT}[/]\n")
 
     try:
         ffmpeg.require()

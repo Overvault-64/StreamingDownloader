@@ -16,7 +16,6 @@ __pycache__/
 htmlcov/
 
 # Application output and temporary files
-downloads/
 tmp/
 temp/
 *.log

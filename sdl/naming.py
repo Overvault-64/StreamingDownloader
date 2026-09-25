@@ -3,12 +3,12 @@
 One implementation, used for films, episodes and anime alike, so the layout
 cannot drift between them:
 
-    downloads/Film/Titolo (2021)/Titolo (2021).mp4
-    downloads/Serie TV/Titolo (2019)/Season 01/Titolo S01E01.mkv
-    downloads/Anime/Titolo (2013)/Season 01/Titolo S01E07.mkv
+    StreamingDownloads/Film/Titolo (2021)/Titolo (2021).mp4
+    StreamingDownloads/Serie TV/Titolo (2019)/Season 01/Titolo S01E01.mkv
+    StreamingDownloads/Anime/Titolo (2013)/Season 01/Titolo S01E07.mkv
 
-The root is fixed: there is nothing to configure, so nothing can point it
-somewhere unexpected.
+The root is ``config.OUTPUT_ROOT``: there is nothing to configure, so nothing
+can point it somewhere unexpected.
 """
 
 from __future__ import annotations
@@ -17,12 +17,10 @@ import re
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from .config import APP_DIR
+from .config import OUTPUT_ROOT
 
 if TYPE_CHECKING:  # only for the annotations; importing at runtime would be a cycle
     from .sources import Episode, Title
-
-OUTPUT_ROOT = APP_DIR / "downloads"
 
 # One directory per content type, matching how Jellyfin expects libraries to be
 # separated.
