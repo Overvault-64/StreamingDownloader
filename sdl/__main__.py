@@ -1,4 +1,4 @@
-"""Entry point: ``python -m sdl [url]``."""
+"""Entry point: ``sdl [url]`` or ``python -m sdl [url]``."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def _setup_logging() -> None:
         logging.basicConfig(level=logging.CRITICAL)
 
 
-if __name__ == "__main__":
+def run() -> None:
     _setup_logging()
     url = " ".join(sys.argv[1:]).strip() or None
     try:
@@ -39,3 +39,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print()
         sys.exit(130)
+
+
+if __name__ == "__main__":
+    run()

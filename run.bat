@@ -33,7 +33,7 @@ if not exist "%PY%" (
 if not exist "%STAMP%" (
     echo [sdl] Installazione delle dipendenze...
     "%PY%" -m pip install --upgrade pip --quiet
-    "%PY%" -m pip install -r requirements.txt
+    "%PY%" -m pip install -e .
     if errorlevel 1 (
         echo.
         echo [sdl] Installazione delle dipendenze fallita.

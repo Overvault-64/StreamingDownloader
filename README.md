@@ -34,8 +34,9 @@ On Windows, run:
 run.bat
 ```
 
-The launcher creates a local `.venv` environment and installs the packages from
-[`requirements.txt`](requirements.txt) on its first run. You can also pass the
+The launcher creates a local `.venv` environment and installs the application
+with the dependencies declared in [`pyproject.toml`](pyproject.toml) on its
+first run. You can also pass the
 URL directly:
 
 ```bat
@@ -51,16 +52,21 @@ python -m venv .venv
 On Windows:
 
 ```console
-.venv\Scripts\python -m pip install -r requirements.txt
-.venv\Scripts\python -m sdl
+.venv\Scripts\python -m pip install -e .
+.venv\Scripts\sdl
 ```
 
 On Linux or macOS:
 
 ```console
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m sdl
+.venv/bin/python -m pip install -e .
+.venv/bin/sdl
 ```
+
+To start it as `sdl` from any directory, link the command into a folder on
+`PATH`, for example `ln -s "$PWD/.venv/bin/sdl" ~/.local/bin/sdl`. Under WSL, a
+Windows shortcut can then target
+`wsl.exe -d <distro> -e bash -lc "sdl || read -rp 'Press Enter to close'"`.
 
 Pass a URL after `sdl` to skip the initial URL prompt. After a download finishes,
 the application asks whether to process another URL.
